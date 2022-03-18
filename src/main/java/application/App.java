@@ -11,7 +11,7 @@ public class App {
         Class.forName("org.sqlite.JDBC");
         String dbUrl = "jdbc:sqlite:people.db";
         var connection = DriverManager.getConnection(dbUrl);
-
+        connection.setAutoCommit(false);
         var stmt = connection.createStatement();
         var sql = "create table if not exists user (id integer primary key, name text not null)";
         stmt.execute(sql);
@@ -23,6 +23,7 @@ public class App {
             insertStmt.setString(2,names[i]);
             insertStmt.executeUpdate();
         }
+        connection.commit();
         insertStmt.close();
 
 

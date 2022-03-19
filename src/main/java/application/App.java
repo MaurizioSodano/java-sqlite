@@ -8,13 +8,13 @@ public class App {
         int[] ids={0,1,2};
         String[] names ={"Sue","Bob","Jhoan"};
 
-        Class.forName("org.sqlite.JDBC");
-        String dbUrl = "jdbc:sqlite:people.db";
-        var connection = DriverManager.getConnection(dbUrl);
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        String dbUrl = "jdbc:mysql://localhost:3306/people";
+        var connection = DriverManager.getConnection(dbUrl,"root","Mercogli@no2022M");
         connection.setAutoCommit(false);
         var stmt = connection.createStatement();
         var sql = "create table if not exists user (id integer primary key, name text not null)";
-        stmt.execute(sql);
+        //stmt.execute(sql);
 
         sql="insert into user (id, name) values (?, ?)";
         var insertStmt=connection.prepareStatement(sql);
@@ -35,8 +35,7 @@ public class App {
             String name= rs.getString("name");
             System.out.println(id + ":"+name);
         }
-        sql="drop table user";
-        stmt.execute(sql);
+
         stmt.close();
         connection.close();
 
